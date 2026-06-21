@@ -10,7 +10,7 @@
     "android": {
       "package": "bo.com.sincpro.tickets",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/TICKETS/icon.png",
+        "foregroundImage": "./assets/TICKETS/adaptive-icon-foreground.png",
         "backgroundColor": "#0EA5E9"
       }
     },

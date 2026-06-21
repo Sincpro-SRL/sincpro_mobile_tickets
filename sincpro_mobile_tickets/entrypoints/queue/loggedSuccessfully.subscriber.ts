@@ -1,7 +1,7 @@
 import { DomainEvent } from "@sincpro/mobile/domain";
 import { Subscriber } from "@sincpro/mobile/domain/event_sourcing";
-import { OdooLoggedInEvent } from "@sincpro/mobile-odoo/domain/auth/events";
 import { loggerUseCases } from "@sincpro/mobile/infrastructure/logger";
+import { OdooLoggedInEvent } from "@sincpro/mobile-odoo/domain/auth/events";
 
 export class LoggedSuccessfullySubscriber extends Subscriber {
   public readonly requiresAuth = false;

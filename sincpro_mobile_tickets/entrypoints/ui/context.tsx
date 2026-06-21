@@ -1,5 +1,5 @@
-import { IServer } from "@sincpro/mobile-odoo/domain/server";
 import { OdooSession } from "@sincpro/mobile-odoo/domain/auth";
+import { IServer } from "@sincpro/mobile-odoo/domain/server";
 import { useOdoo } from "@sincpro/mobile-odoo/entrypoints/ui/context";
 import { createContext, ReactNode, useContext } from "react";
 
@@ -16,17 +16,13 @@ interface ITicketsGlobalContext {
   deleteServerParams: () => Promise<void>;
 }
 
-const TicketsGlobalContext = createContext<ITicketsGlobalContext | undefined>(
-  undefined,
-);
+const TicketsGlobalContext = createContext<ITicketsGlobalContext | undefined>(undefined);
 
 interface TicketsGlobalProviderProps {
   children: ReactNode;
 }
 
-export function TicketsGlobalProvider({
-  children,
-}: TicketsGlobalProviderProps) {
+export function TicketsGlobalProvider({ children }: TicketsGlobalProviderProps) {
   const odooContext = useOdoo();
 
   const value: ITicketsGlobalContext = {
@@ -43,18 +39,14 @@ export function TicketsGlobalProvider({
   };
 
   return (
-    <TicketsGlobalContext.Provider value={value}>
-      {children}
-    </TicketsGlobalContext.Provider>
+    <TicketsGlobalContext.Provider value={value}>{children}</TicketsGlobalContext.Provider>
   );
 }
 
 export function useTicketsGlobal(): ITicketsGlobalContext {
   const context = useContext(TicketsGlobalContext);
   if (context === undefined) {
-    throw new Error(
-      "useTicketsGlobal must be used within TicketsGlobalProvider",
-    );
+    throw new Error("useTicketsGlobal must be used within TicketsGlobalProvider");
   }
   return context;
 }

@@ -44,10 +44,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
     }
   }
 
-  async connectBluetooth(
-    address: string,
-    timeoutMs: number = 10000,
-  ): Promise<void> {
+  async connectBluetooth(address: string, timeoutMs: number = 10000): Promise<void> {
     await connection.connectBluetooth(address, timeoutMs);
     await config.set(DEFAULT_PRINTER_CONFIG);
     loggerAdapter.info(`Connected to printer at ${address} with zero margins`);
@@ -81,10 +78,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
     });
   }
 
-  async printReceipt(
-    receipt: Receipt,
-    options?: PrintReceiptOptions,
-  ): Promise<void> {
+  async printReceipt(receipt: Receipt, options?: PrintReceiptOptions): Promise<void> {
     await print.receipt(receipt, {
       ...options,
       media: { preset: DEFAULT_MEDIA_PRESET },
@@ -99,16 +93,11 @@ class PrinterAdapterImpl implements IPrinterDriver {
     await print.barcode(data, { media: { preset: DEFAULT_MEDIA_PRESET } });
   }
 
-  async printImageBase64(
-    base64Data: string,
-    options?: PrintImageOptions,
-  ): Promise<void> {
+  async printImageBase64(base64Data: string, options?: PrintImageOptions): Promise<void> {
     const mediaConfig: MediaConfig = options?.media ?? {
       preset: DEFAULT_MEDIA_PRESET,
     };
-    loggerAdapter.info(
-      `Printing image with media preset: ${mediaConfig.preset ?? "custom"}`,
-    );
+    loggerAdapter.info(`Printing image with media preset: ${mediaConfig.preset ?? "custom"}`);
     await print.imageBase64(base64Data, { ...options, media: mediaConfig });
   }
 

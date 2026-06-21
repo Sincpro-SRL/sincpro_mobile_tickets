@@ -1,16 +1,11 @@
 import { IconType } from "@sincpro/mobile/domain/icon";
+import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
 import BoxTimeIcon from "@sincpro/mobile-ui/icons/BoxTimeIcon";
 import OdooIcon from "@sincpro/mobile-ui/icons/OdooIcon";
 import SettingsIcon from "@sincpro/mobile-ui/icons/SettingsIcon";
-import {
-  HomeHeader,
-  MenuGrid,
-  type MenuItem,
-} from "@sincpro/mobile-ui/widgets";
+import { HomeHeader, MenuGrid, type MenuItem } from "@sincpro/mobile-ui/widgets";
 import { ScrollView, View } from "react-native";
 import { useNavigate } from "react-router-native";
-
-import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
 
 function HomeScreen() {
   const navigate = useNavigate();

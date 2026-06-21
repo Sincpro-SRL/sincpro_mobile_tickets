@@ -1,3 +1,6 @@
+import { PlainLayout, TabNavigatorLayout } from "@sincpro/mobile";
+import { UIEventBus } from "@sincpro/mobile/infrastructure/ui/UIEventBus";
+import { DatabaseList, DeadLetterQueueList, EventsScreen } from "@sincpro/mobile/ui/screens";
 import {
   LoginScreen,
   OdooPortalScreen,
@@ -8,13 +11,6 @@ import {
 } from "@sincpro/mobile-odoo/ui/screens";
 import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
 import { HomeScreen } from "@sincpro/mobile-tickets/ui/screens";
-import { PlainLayout, TabNavigatorLayout } from "@sincpro/mobile";
-import { UIEventBus } from "@sincpro/mobile/infrastructure/ui/UIEventBus";
-import {
-  DatabaseList,
-  DeadLetterQueueList,
-  EventsScreen,
-} from "@sincpro/mobile/ui/screens";
 import HomeIcon from "@sincpro/mobile-ui/icons/HomeIcon";
 import OdooIcon from "@sincpro/mobile-ui/icons/OdooIcon";
 import ProfileIcon from "@sincpro/mobile-ui/icons/ProfileIcon";
@@ -74,10 +70,7 @@ function TicketsRoutes() {
         <Route element={<HomeScreen />} path={AppScreen.MAIN} />
         <Route element={<OdooPortalScreen />} path={AppScreen.ODOO_PORTAL} />
         <Route element={<SettingsScreen />} path={AppScreen.SETTINGS} />
-        <Route
-          element={<DeadLetterQueueList />}
-          path={AppScreen.DEAD_LETTER_QUEUE}
-        />
+        <Route element={<DeadLetterQueueList />} path={AppScreen.DEAD_LETTER_QUEUE} />
         <Route element={<EventsScreen />} path={AppScreen.EVENTS} />
         <Route element={<DatabaseList />} path={AppScreen.DATABASE_LIST} />
         <Route
@@ -92,16 +85,11 @@ function TicketsRoutes() {
       </Route>
       <Route element={<PlainLayout />}>
         <Route
-          element={
-            <LoginScreen logoSource={require("../../../assets/TICKETS/logo.png")} />
-          }
+          element={<LoginScreen logoSource={require("../../../assets/TICKETS/logo.png")} />}
           path={AppScreen.LOGIN}
         />
         <Route element={<ServerScreen />} path={AppScreen.SERVER} />
-        <Route
-          element={<ResetAccountScreen />}
-          path={AppScreen.RESET_ACCOUNT}
-        />
+        <Route element={<ResetAccountScreen />} path={AppScreen.RESET_ACCOUNT} />
       </Route>
     </Routes>
   );
