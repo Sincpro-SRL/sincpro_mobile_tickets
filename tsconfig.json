@@ -1,0 +1,13 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "jsxImportSource": "nativewind",
+    "baseUrl": ".",
+    "paths": {
+      "@sincpro/mobile-tickets/*": ["./sincpro_mobile_tickets/*"],
+      "@sincpro/mobile-tickets": ["./sincpro_mobile_tickets/index.ts"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
+}

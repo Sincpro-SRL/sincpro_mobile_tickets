@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: 14 165 233;
+  --secondary: 12 74 110;
+  --accent: 245 158 11;
+  --success: 22 163 74;
+  --warning: 245 158 11;
+  --danger: 220 38 38;
+  --info: 14 165 233;
+  --ring: 14 165 233;
+  --input: 226 232 240;
+  --bg-page: 240 249 255;
+  --bg-card: 255 255 255;
+  --bg-popover: 255 255 255;
+  --bg-muted: 224 242 254;
+  --bg-accent: 186 230 253;
+  --bg-hover: 224 242 254;
+  --bg-disabled: 241 245 249;
+  --text-primary: 15 23 42;
+  --text-secondary: 71 85 105;
+  --text-tertiary: 148 163 184;
+  --text-muted: 100 116 139;
+  --text-accent: 7 89 133;
+  --text-inverse: 255 255 255;
+  --text-disabled: 148 163 184;
+  --text-on-primary: 255 255 255;
+  --text-on-secondary: 255 255 255;
+  --text-on-accent: 255 255 255;
+  --text-on-danger: 255 255 255;
+  --text-on-success: 255 255 255;
+  --icon-primary: 15 23 42;
+  --icon-secondary: 100 116 139;
+  --icon-tertiary: 148 163 184;
+  --icon-inverse: 255 255 255;
+  --icon-disabled: 203 213 225;
+  --border-default: 226 232 240;
+  --border-light: 241 245 249;
+  --border-strong: 203 213 225;
+  --border-focus: 14 165 233;
+}

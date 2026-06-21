@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Tickets",
+    "slug": "sincpro-mobile-tickets",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "icon": "./assets/TICKETS/icon.png",
+    "android": {
+      "package": "bo.com.sincpro.tickets",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/TICKETS/icon.png",
+        "backgroundColor": "#0EA5E9"
+      }
+    },
+    "ios": { "bundleIdentifier": "bo.com.sincpro.tickets" },
+    "plugins": [
+      "expo-sqlite",
+      "expo-localization",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/TICKETS/splash.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0EA5E9",
+          "dark": {
+            "image": "./assets/TICKETS/splash.png",
+            "backgroundColor": "#0C4A6E"
+          }
+        }
+      ]
+    ]
+  }
+}
