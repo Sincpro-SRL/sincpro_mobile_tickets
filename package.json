@@ -15,9 +15,9 @@
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
-    "@sincpro/mobile": "0.1.0",
+    "@sincpro/mobile": "0.1.1",
     "@sincpro/mobile-odoo": "0.1.0",
-    "@sincpro/mobile-ui": "0.2.0",
+    "@sincpro/mobile-ui": "0.2.1",
     "@sincpro/printer-expo": "1.0.6",
     "async-mutex": "^0.5.0",
     "axios": "^1.11.0",
@@ -82,8 +82,8 @@
     "printWidth": 94
   },
   "resolutions": {
-    "@sincpro/mobile": "0.1.0",
-    "@sincpro/mobile-ui": "0.2.0",
+    "@sincpro/mobile": "0.1.1",
+    "@sincpro/mobile-ui": "0.2.1",
     "@sincpro/mobile-odoo": "0.1.0"
   }
 }
