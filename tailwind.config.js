@@ -8,5 +8,15 @@ module.exports = {
     "./node_modules/@sincpro/mobile-ui/**/*.js",
     "./node_modules/@sincpro/mobile-odoo/**/*.js",
   ],
-  theme: { extend: {} },
+  theme: {
+    extend: {
+      fontFamily: {
+        light: ["Satoshi-Regular"],
+        regular: ["Satoshi-Regular"],
+        medium: ["Satoshi-Medium"],
+        semibold: ["Satoshi-Bold"],
+        extrabold: ["Satoshi-Black"],
+      },
+    },
+  },
 };

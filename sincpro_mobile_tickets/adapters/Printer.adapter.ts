@@ -23,6 +23,20 @@ const DEFAULT_PRINTER_CONFIG: PrinterConfig = {
   density: "extra_dark",
 };
 
+const PRINT_TIMEOUT_MS = 20_000;
+
+function withPrintTimeout<T>(promise: Promise<T>): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error(`Printer operation timed out after ${PRINT_TIMEOUT_MS}ms`)),
+        PRINT_TIMEOUT_MS,
+      ),
+    ),
+  ]);
+}
+
 class PrinterAdapterImpl implements IPrinterDriver {
   getPairedDevices(): BluetoothDevice[] {
     loggerAdapter.info("Getting paired Bluetooth devices");
@@ -98,7 +112,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
       preset: DEFAULT_MEDIA_PRESET,
     };
     loggerAdapter.info(`Printing image with media preset: ${mediaConfig.preset ?? "custom"}`);
-    await print.imageBase64(base64Data, { ...options, media: mediaConfig });
+    await withPrintTimeout(print.imageBase64(base64Data, { ...options, media: mediaConfig }));
   }
 
   async printPdfBase64(base64Data: string, page: number = 1): Promise<void> {

@@ -9,8 +9,9 @@ export enum AppScreen {
   SETTINGS = OdooScreen.SETTINGS,
   DATABASE_LIST = OdooScreen.DATABASE_LIST,
 
-  DEAD_LETTER_QUEUE = "/common/dead-letter-queue",
-  EVENTS = "/common/events",
+  DEAD_LETTER_QUEUE = "DeadLetterQueue",
+  EVENTS = "Events",
 
-  MAIN = "/",
+  MAIN = "Main",
+  HOME = "Home",
 }

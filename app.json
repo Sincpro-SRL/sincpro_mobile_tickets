@@ -1,20 +1,21 @@
 {
   "expo": {
-    "name": "Tickets",
+    "name": "tickets",
     "slug": "sincpro-mobile-tickets",
     "version": "0.1.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "userInterfaceStyle": "automatic",
     "icon": "./assets/TICKETS/icon.png",
     "android": {
-      "package": "bo.com.sincpro.tickets",
+      "package": "bo.com.sincpro.mobile.tickets",
       "adaptiveIcon": {
         "foregroundImage": "./assets/TICKETS/adaptive-icon-foreground.png",
-        "backgroundColor": "#0EA5E9"
+        "backgroundColor": "#00313C"
       }
     },
-    "ios": { "bundleIdentifier": "bo.com.sincpro.tickets" },
+    "ios": {
+      "bundleIdentifier": "bo.com.sincpro.mobile.tickets"
+    },
     "plugins": [
       "expo-sqlite",
       "expo-localization",
@@ -24,13 +25,24 @@
           "image": "./assets/TICKETS/splash.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#0EA5E9",
+          "backgroundColor": "#00313C",
           "dark": {
             "image": "./assets/TICKETS/splash.png",
-            "backgroundColor": "#0C4A6E"
+            "backgroundColor": "#00313C"
           }
         }
-      ]
-    ]
+      ],
+      "expo-font",
+      "expo-background-task",
+      "expo-sharing",
+      "expo-status-bar",
+      "@react-native-community/datetimepicker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5ed2d124-85d4-4a63-a20b-45b9aa87fc71"
+      }
+    },
+    "owner": "sincpro"
   }
 }
