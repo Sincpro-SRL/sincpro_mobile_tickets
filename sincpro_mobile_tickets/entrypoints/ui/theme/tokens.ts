@@ -1,108 +1,189 @@
 import type { ThemeTokens } from "@sincpro/mobile-ui/theme/types";
 
-/**
- * ============================================================================
- * TICKETS DOMAIN - THEME TOKENS
- * ============================================================================
- *
- * Tema "Cochabamba" - celeste de la bandera de Cochabamba (Bolivia) como color
- * principal, con acentos diferenciados (azul profundo + dorado) para resaltar.
- */
-
+// ── LIGHT THEME ──────────────────────────────────────────────────────────────
+// Palette from design handoff — 5 base colors:
+//   #00313C  primary   · Navy      (Pantone 547 C)
+//   #4698CA  secondary · Light blue (Pantone 7688 C)
+//   #E8883A  accent    · Amber CTA
+//   #F6F9FA  surface   · Paper/muted
+//   #14242E  ink       · Dark text
 export const TICKETS_THEME: ThemeTokens = {
   name: "tickets",
 
-  // Colores primarios (celeste Cochabamba + acentos)
-  primary: "#0EA5E9", // sky-500 - celeste bandera de Cochabamba
-  secondary: "#0C4A6E", // sky-900 - azul profundo, contraste serio
-  accent: "#F59E0B", // amber-500 - dorado cálido para CTAs/badges
+  primary: "#00313C", // navy · main buttons, headings
+  secondary: "#4698CA", // light blue · links, secondary actions
+  accent: "#E8883A", // amber · CTA, focus rings, active states
 
-  // Fondos (claros con un matiz celeste)
   bg: {
-    page: "#F0F9FF", // sky-50 - fondo con tinte celeste muy sutil
-    card: "#FFFFFF", // Blanco puro - cards resaltan
-    popover: "#FFFFFF", // Blanco puro
-    muted: "#E0F2FE", // sky-100 - superficies secundarias celestes
-    accent: "#BAE6FD", // sky-200 - estados seleccionados celestes
-    hover: "#E0F2FE", // sky-100 - hover celeste sutil
-    disabled: "#F1F5F9", // slate-100 - disabled
+    page: "#F2F6F9", // cool blue-tint — white cards visually lift from this
+    card: "#FFFFFF",
+    popover: "#FFFFFF",
+    muted: "#E8EFF4", // slightly deeper tint for alternate sections
+    accent: "#FEF1E6", // amber-tinted selected surface — matches accent color
+    hover: "#EBF2F7",
+    disabled: "#EDF2F5",
   },
 
-  // Textos (oscuros sobre claro)
   text: {
-    primary: "#0F172A", // slate-900 - foreground principal
-    secondary: "#475569", // slate-600 - texto secundario
-    tertiary: "#94A3B8", // slate-400 - placeholders
-    muted: "#64748B", // slate-500 - texto sobre bg.muted
-    accent: "#075985", // sky-800 - texto sobre bg.accent celeste
-    inverse: "#FFFFFF", // Blanco - texto sobre colores
-    disabled: "#94A3B8", // slate-400 - disabled
-    onPrimary: "#FFFFFF", // Blanco sobre primary (celeste)
-    onSecondary: "#FFFFFF", // Blanco sobre secondary (azul profundo)
-    onAccent: "#FFFFFF", // Blanco sobre accent (dorado)
-    onDanger: "#FFFFFF", // Blanco sobre rojo
-    onSuccess: "#FFFFFF", // Blanco sobre verde
+    primary: "#14242E", // dark ink
+    secondary: "#00313C", // navy
+    tertiary: "#4698CA", // light blue
+    muted: "#4698CA",
+    accent: "#B5601A", // darkened amber — readable on light bg
+    inverse: "#FFFFFF",
+    disabled: "#9CA3AF",
+    onPrimary: "#FFFFFF", // white on navy
+    onSecondary: "#14242E",
+    onAccent: "#FFFFFF", // white on amber
+    onDanger: "#FFFFFF",
+    onSuccess: "#FFFFFF",
   },
 
-  // Iconos (oscuros sobre claro)
   icon: {
-    primary: "#0F172A", // slate-900
-    secondary: "#64748B", // slate-500
-    tertiary: "#94A3B8", // slate-400
-    inverse: "#FFFFFF", // Blanco
-    disabled: "#CBD5E1", // slate-300
+    primary: "#00313C",
+    secondary: "#4698CA",
+    tertiary: "#9CA3AF",
+    inverse: "#FFFFFF",
+    disabled: "#CBD5E1",
   },
 
-  // Bordes (sutiles, con focus celeste)
   border: {
-    default: "#E2E8F0", // slate-200 - bordes sutiles
-    light: "#F1F5F9", // slate-100 - bordes muy sutiles
-    strong: "#CBD5E1", // slate-300 - bordes fuertes
-    focus: "#0EA5E9", // sky-500 - focus ring celeste
+    default: "#D0DFE9", // more defined against #F2F6F9 page bg
+    light: "#E8EFF4",
+    strong: "#4698CA",
+    focus: "#E8883A", // amber focus ring
   },
 
-  // Estados semánticos
-  success: "#16A34A", // green-600
-  warning: "#F59E0B", // amber-500
-  danger: "#DC2626", // red-600
-  info: "#0EA5E9", // sky-500 (usa primary celeste)
+  success: "#1B7A4A",
+  warning: "#E8883A", // amber = CTA = warning action
+  danger: "#C0392B",
+  info: "#4698CA", // light blue
 
-  // Estados semánticos - Versiones claras
-  successLight: "#DCFCE7", // green-100
-  warningLight: "#FEF3C7", // amber-100
-  dangerLight: "#FEE2E2", // red-100
-  infoLight: "#E0F2FE", // sky-100
+  successLight: "#D4EDE0",
+  warningLight: "#FDF0E4",
+  dangerLight: "#FADBD8",
+  infoLight: "#EAF2F7",
 
-  // Focus & Input
-  ring: "#0EA5E9", // sky-500 - celeste
-  input: "#E2E8F0", // slate-200
+  ring: "#E8883A",
+  input: "#EAF2F7",
 
-  // Gradientes (celeste casi plano: salto sutil entre los dos tonos)
   gradient: {
-    primary: ["#38BDF8", "#0EA5E9"], // sky-400 → sky-500 (degradé muy sutil)
-    accent: ["#F59E0B", "#D97706"], // amber-500 → amber-600 (dorado)
+    primary: ["#14242E", "#00313C"], // ink → navy
+    accent: ["#C96A1A", "#E8883A"], // dark amber → amber
   },
 
-  // Sombras (light theme - sutiles)
   shadow: {
     sm: {
-      shadowColor: "#000000",
+      shadowColor: "#00313C",
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.05,
       shadowRadius: 2,
       elevation: 1,
     },
     md: {
-      shadowColor: "#000000",
+      shadowColor: "#00313C",
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.1,
       shadowRadius: 6,
       elevation: 3,
     },
     lg: {
-      shadowColor: "#000000",
+      shadowColor: "#00313C",
       shadowOffset: { width: 0, height: 10 },
       shadowOpacity: 0.1,
+      shadowRadius: 15,
+      elevation: 5,
+    },
+  },
+};
+
+// ── DARK THEME ────────────────────────────────────────────────────────────────
+// Based on CC4 (Navy) + CC5 (Hero): dark navy background, light text,
+// amber CTA unchanged. Links shift to #9FD0EC (lighter blue for dark surfaces).
+export const TICKETS_DARK_THEME: ThemeTokens = {
+  name: "tickets-dark",
+
+  primary: "#EAF2F7", // light text on dark surface
+  secondary: "#9FD0EC", // lighter blue — CC5 links
+  accent: "#E8883A", // amber stays — same CTA across modes
+
+  bg: {
+    page: "#00313C", // CC4/CC5 · navy dark base
+    card: "#14242E", // darker ink
+    popover: "#14242E",
+    muted: "#14242E",
+    accent: "#1A4A58", // slightly lighter navy — selected surface
+    hover: "#14242E",
+    disabled: "#0D1F28",
+  },
+
+  text: {
+    primary: "#EAF2F7",
+    secondary: "#9FD0EC",
+    tertiary: "#4698CA",
+    muted: "#9FD0EC",
+    accent: "#E8883A", // amber on dark — good contrast
+    inverse: "#00313C",
+    disabled: "#3A4F58",
+    onPrimary: "#00313C", // dark on light button
+    onSecondary: "#EAF2F7",
+    onAccent: "#FFFFFF",
+    onDanger: "#FFFFFF",
+    onSuccess: "#FFFFFF",
+  },
+
+  icon: {
+    primary: "#EAF2F7",
+    secondary: "#9FD0EC",
+    tertiary: "#4698CA",
+    inverse: "#00313C",
+    disabled: "#3A4F58",
+  },
+
+  border: {
+    default: "#1A4A58",
+    light: "#14242E",
+    strong: "#4698CA",
+    focus: "#E8883A",
+  },
+
+  success: "#2EAE6E",
+  warning: "#E8883A",
+  danger: "#E74C3C",
+  info: "#4698CA",
+
+  successLight: "#0D3525",
+  warningLight: "#3D2008",
+  dangerLight: "#3D0D0D",
+  infoLight: "#0D2535",
+
+  ring: "#E8883A",
+  input: "#1A4A58",
+
+  gradient: {
+    primary: ["#1A3A48", "#00313C"],
+    accent: ["#C96A1A", "#E8883A"],
+  },
+
+  shadow: {
+    sm: {
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.3,
+      shadowRadius: 2,
+      elevation: 1,
+    },
+    md: {
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.4,
+      shadowRadius: 6,
+      elevation: 3,
+    },
+    lg: {
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 10 },
+      shadowOpacity: 0.5,
       shadowRadius: 15,
       elevation: 5,
     },
