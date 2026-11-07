@@ -5,7 +5,6 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "icon": "./assets/TICKETS/icon.png",
     "android": {
       "package": "bo.com.sincpro.tickets",
@@ -14,7 +13,9 @@
         "backgroundColor": "#0EA5E9"
       }
     },
-    "ios": { "bundleIdentifier": "bo.com.sincpro.tickets" },
+    "ios": {
+      "bundleIdentifier": "bo.com.sincpro.tickets"
+    },
     "plugins": [
       "expo-sqlite",
       "expo-localization",
@@ -29,6 +30,19 @@
             "image": "./assets/TICKETS/splash.png",
             "backgroundColor": "#0C4A6E"
           }
+        }
+      ],
+      "expo-background-task",
+      "expo-sharing",
+      "expo-status-bar",
+      "expo-font",
+      "@react-native-community/datetimepicker",
+      "expo-image",
+      [
+        "@sincpro/printer-expo",
+        {
+          "bluetoothClassic": true,
+          "bluetoothUsageDescription": "Se usa Bluetooth para conectar la impresora de tickets."
         }
       ]
     ]

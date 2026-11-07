@@ -8,6 +8,7 @@ import { ResetAccountScreen } from "@sincpro/mobile-odoo/ui/screens/reset_accoun
 import { ServerScreen } from "@sincpro/mobile-odoo/ui/screens/server";
 import { SettingsScreen } from "@sincpro/mobile-odoo/ui/screens/settings";
 import { HomeScreen } from "@sincpro/mobile-tickets/ui/screens/home/home.screen";
+import { Display } from "@sincpro/mobile-ui/Display";
 import { useTheme } from "@sincpro/mobile-ui/theme";
 
 import { AppScreen } from "./AppScreen";
@@ -18,25 +19,52 @@ const Tabs = createBottomTabNavigator();
 
 const logo = require("../../../assets/TICKETS/logo.png");
 
+// Encabezado de las pantallas de acceso con el degradado de marca del tema (no el preset dorado
+// por defecto de mobile-ui).
+const AUTH_BACKGROUND = { surface: "brand" } as const;
+
 function LoginRoute() {
-  return <LoginScreen logoSource={logo} />;
+  return <LoginScreen background={AUTH_BACKGROUND} logoSource={logo} />;
+}
+
+function ServerRoute() {
+  return <ServerScreen background={AUTH_BACKGROUND} logoSource={logo} />;
+}
+
+function ResetAccountRoute() {
+  return <ResetAccountScreen background={AUTH_BACKGROUND} logoSource={logo} />;
 }
 
 function ProfileRoute() {
   return <ProfileScreen mainRoute={AppScreen.MAIN} />;
 }
 
+const TAB_ICONS: Record<string, string> = {
+  [AppScreen.MAIN]: "home-outline",
+  [AppScreen.ODOO_PORTAL]: "globe-outline",
+  [AppScreen.SETTINGS]: "settings-outline",
+  [AppScreen.PROFILE]: "person-outline",
+};
+
 function MainTabs() {
   const theme = useTheme();
 
   return (
     <Tabs.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: theme.primary,
+        tabBarActiveTintColor: theme.text.accent,
         tabBarInactiveTintColor: theme.text.secondary,
         tabBarStyle: { backgroundColor: theme.bg.page },
-      }}
+        tabBarIcon: ({ color, size }) => (
+          <Display.Icon
+            color={color}
+            name={TAB_ICONS[route.name]}
+            size={size}
+            type="ionicons"
+          />
+        ),
+      })}
     >
       <Tabs.Screen
         component={HomeScreen}
@@ -63,9 +91,9 @@ function MainTabs() {
 }
 
 function TicketsRoutes() {
-  const { session, authIsLoading, serverParams } = useTicketsGlobal();
-
-  if (authIsLoading) return null;
+  // El splash de App.tsx cubre la carga inicial de la sesión. No se desmonta el navegador mientras
+  // `authIsLoading`: ese flag también se activa al iniciar sesión y dejaba la pantalla en blanco.
+  const { session, serverParams } = useTicketsGlobal();
 
   const signedIn = Boolean(serverParams && session);
 
@@ -81,8 +109,8 @@ function TicketsRoutes() {
       ) : (
         <>
           <Stack.Screen component={LoginRoute} name={AppScreen.LOGIN} />
-          <Stack.Screen component={ServerScreen} name={AppScreen.SERVER} />
-          <Stack.Screen component={ResetAccountScreen} name={AppScreen.RESET_ACCOUNT} />
+          <Stack.Screen component={ServerRoute} name={AppScreen.SERVER} />
+          <Stack.Screen component={ResetAccountRoute} name={AppScreen.RESET_ACCOUNT} />
         </>
       )}
     </Stack.Navigator>

@@ -1,20 +1,21 @@
 import { useNavigation } from "@react-navigation/native";
-import { IconType } from "@sincpro/mobile/domain/icon";
 import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
+import { Display } from "@sincpro/mobile-ui/Display";
+import type { MenuGridItem } from "@sincpro/mobile-ui/Display/Display.MenuGrid";
 import BoxTimeIcon from "@sincpro/mobile-ui/icons/BoxTimeIcon";
 import OdooIcon from "@sincpro/mobile-ui/icons/OdooIcon";
 import SettingsIcon from "@sincpro/mobile-ui/icons/SettingsIcon";
-import { HomeHeader, MenuGrid, type MenuItem } from "@sincpro/mobile-ui/widgets";
+import { AppBar } from "@sincpro/mobile-ui/Navigation/Navigation.AppBar";
 import { ScrollView, View } from "react-native";
 
 function HomeScreen() {
   const navigation = useNavigation();
 
-  const menuItems: MenuItem[] = [
+  const menuItems: MenuGridItem[] = [
     {
       id: "1",
       title: "Odoo",
-      iconType: "custom" as IconType,
+      iconType: "custom",
       onPress: () => navigation.navigate(AppScreen.ODOO_PORTAL as never),
       customIcon: OdooIcon,
     },
@@ -43,13 +44,20 @@ function HomeScreen() {
 
   return (
     <View className="flex-1">
-      <HomeHeader
-        logoSource={require("../../../../assets/TICKETS/logo.png")}
+      <AppBar
+        background={{ surface: "brand" }}
+        leading={
+          <Display.Logo
+            size="small"
+            source={require("../../../../assets/TICKETS/logo.png")}
+          />
+        }
         title="Tickets"
+        variant="large"
       />
       <View className="flex-1">
         <ScrollView contentContainerClassName="flex-grow">
-          <MenuGrid items={menuItems} />
+          <Display.MenuGrid items={menuItems} />
         </ScrollView>
       </View>
     </View>

@@ -1,4 +1,4 @@
-import type { IPrinterDriver } from "@sincpro/mobile/domain/print";
+import type { IPrinterConnection, IPrinterDriver } from "@sincpro/mobile/domain/print";
 import { loggerAdapter } from "@sincpro/mobile/infrastructure/logger";
 import type {
   BluetoothDevice,
@@ -55,8 +55,21 @@ class PrinterAdapterImpl implements IPrinterDriver {
     await connection.disconnect();
   }
 
+  async scanPrinters(): Promise<BluetoothDevice[]> {
+    return bluetooth.scan();
+  }
+
   isConnected(): boolean {
     return connection.isConnected();
+  }
+
+  getConnection(): IPrinterConnection {
+    return connection.getConnection();
+  }
+
+  onConnectionChange(listener: (connection: IPrinterConnection) => void): () => void {
+    const subscription = connection.addListener(listener);
+    return () => subscription.remove();
   }
 
   async getStatus(): Promise<PrinterStatus> {
