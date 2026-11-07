@@ -1,4 +1,4 @@
-import { Subscriber } from "@sincpro/mobile/domain/event_sourcing";
+import { Subscriber } from "@sincpro/mobile/event_driven";
 
 import { LoggedSuccessfullySubscriber } from "./loggedSuccessfully.subscriber";
 

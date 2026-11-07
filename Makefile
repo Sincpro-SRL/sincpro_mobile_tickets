@@ -46,6 +46,8 @@ format:
 	@npx prettier  --experimental-cli --write "**/*.{ts,tsx,js,jsx,json}" --ignore-path .gitignore
 	@make typecheck
 
+verify: verify-format
+
 verify-format: format 
 	@if ! git diff --quiet; then \
 	  echo >&2 "✘ El formateo ha modificado archivos. Por favor agrégalos al commit."; \

@@ -26,6 +26,10 @@ export const TICKETS_THEME: ThemeTokens = {
     accent: "#BAE6FD", // sky-200 - estados seleccionados celestes
     hover: "#E0F2FE", // sky-100 - hover celeste sutil
     disabled: "#F1F5F9", // slate-100 - disabled
+    inverse: "#0C4A6E",
+    containerLowest: "#F0F9FF",
+    container: "#E0F2FE",
+    containerHigh: "#BAE6FD",
   },
 
   // Textos (oscuros sobre claro)
@@ -73,14 +77,34 @@ export const TICKETS_THEME: ThemeTokens = {
   dangerLight: "#FEE2E2", // red-100
   infoLight: "#E0F2FE", // sky-100
 
+  container: {
+    primary: "#E0F2FE",
+    onPrimary: "#0C4A6E",
+    secondary: "#E0F2FE",
+    onSecondary: "#0C4A6E",
+    accent: "#FEF3C7",
+    onAccent: "#92400E",
+    success: "#DCFCE7",
+    onSuccess: "#166534",
+    warning: "#FEF3C7",
+    onWarning: "#92400E",
+    danger: "#FEE2E2",
+    onDanger: "#991B1B",
+    info: "#E0F2FE",
+    onInfo: "#075985",
+  },
+
+  state: { hover: 0.08, press: 0.12, focus: 0.12, drag: 0.16 },
+  material: { blur: 24, opacity: 0.78, borderOpacity: 0.18 },
+
   // Focus & Input
   ring: "#0EA5E9", // sky-500 - celeste
   input: "#E2E8F0", // slate-200
 
   // Gradientes (celeste casi plano: salto sutil entre los dos tonos)
   gradient: {
-    primary: ["#38BDF8", "#0EA5E9"], // sky-400 → sky-500 (degradé muy sutil)
-    accent: ["#F59E0B", "#D97706"], // amber-500 → amber-600 (dorado)
+    primary: ["#38BDF8", "#0EA5E9"] as const,
+    accent: ["#F59E0B", "#D97706"] as const,
   },
 
   // Sombras (light theme - sutiles)

@@ -7,24 +7,30 @@ import { TicketsGlobalProvider, useTicketsGlobal } from "./context";
 
 function TicketsAppComponent() {
   const { loadServerParams, loadSession } = useTicketsGlobal();
-  const [showSplash, setShowSplash] = useState(true);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     const init = async () => {
       await loadServerParams();
       await loadSession();
+      if (!cancelled) setReady(true);
     };
-    init();
+    void init();
+    return () => {
+      cancelled = true;
+    };
   }, [loadServerParams, loadSession]);
 
   return (
-    <Feedback.DomainSplashScreen
-      domainName="Tickets"
-      isLoading={showSplash}
-      onComplete={() => setShowSplash(false)}
+    <Feedback.SplashScreen
+      isReady={ready}
+      logo={require("../../../assets/TICKETS/logo.png")}
+      title="Tickets"
+      variant="hero"
     >
       <TicketsRoutes />
-    </Feedback.DomainSplashScreen>
+    </Feedback.SplashScreen>
   );
 }
 

@@ -1,5 +1,5 @@
 import { createAppShell, createTheme } from "@sincpro/mobile";
-import type { Subscriber } from "@sincpro/mobile/domain/event_sourcing";
+import type { Subscriber } from "@sincpro/mobile/event_driven";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
 import type { CronWorker } from "@sincpro/mobile/infrastructure/workers";
 import { printerService } from "@sincpro/mobile/services/printer.service";
