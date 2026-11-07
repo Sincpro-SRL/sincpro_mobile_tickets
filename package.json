@@ -4,6 +4,9 @@
   "private": true,
   "description": "App Tickets — compone @sincpro/mobile + mobile-ui + mobile-odoo (POC del framework)",
   "main": "index.ts",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
