@@ -59,6 +59,14 @@
           "bluetoothClassic": true,
           "bluetoothUsageDescription": "Se usa Bluetooth para conectar la impresora de tickets."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraProguardRules": "-keep class * extends androidx.room.RoomDatabase { void <init>(); }"
+          }
+        }
       ]
     ],
     "extra": {
