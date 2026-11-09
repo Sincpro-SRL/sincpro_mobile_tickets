@@ -7,7 +7,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useCommon } from "@sincpro/mobile";
 import { DatabaseList, DeadLetterQueueList, EventsScreen } from "@sincpro/mobile/ui/screens";
 import { LoginScreen } from "@sincpro/mobile-odoo/ui/screens/login";
-import { OdooPortalScreen } from "@sincpro/mobile-odoo/ui/screens/odoo_portal";
+import {
+  OdooPortalScreen,
+  reloadOdooPortal,
+} from "@sincpro/mobile-odoo/ui/screens/odoo_portal";
 import { ProfileScreen } from "@sincpro/mobile-odoo/ui/screens/profile";
 import { ResetAccountScreen } from "@sincpro/mobile-odoo/ui/screens/reset_account";
 import { ServerScreen } from "@sincpro/mobile-odoo/ui/screens/server";
@@ -89,7 +92,8 @@ const TAB_ICONS: Record<string, IconName> = {
   [AppScreen.PROFILE]: "profile-circle",
 };
 
-// Odoo is the work, so it opens first and sits in the middle as a raised gold button.
+// Odoo is the work, so it opens first and sits in the middle as a raised gold button. While
+// Odoo is open, a tap reloads it from the cache and a long press downloads it again.
 function OdooTabButton({
   onPress,
   onLongPress,
@@ -100,11 +104,26 @@ function OdooTabButton({
   const selected = accessibilityState?.selected ?? false;
   return (
     <Pressable
+      accessibilityHint={
+        selected ? "Toca para recargar; mantén presionado para limpiar la caché" : undefined
+      }
       accessibilityLabel="Odoo"
       accessibilityRole="tab"
       accessibilityState={{ selected }}
-      onLongPress={(event) => onLongPress?.(event as never)}
-      onPress={(event) => onPress?.(event as never)}
+      onLongPress={(event) => {
+        if (selected) {
+          reloadOdooPortal({ clearCache: true });
+          return;
+        }
+        onLongPress?.(event as never);
+      }}
+      onPress={(event) => {
+        if (selected) {
+          reloadOdooPortal();
+          return;
+        }
+        onPress?.(event as never);
+      }}
       style={{ flex: 1, alignItems: "center" }}
       testID={testID}
     >
