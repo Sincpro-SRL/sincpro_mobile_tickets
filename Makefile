@@ -98,7 +98,7 @@ endif
 	fi
 
 publish:
-	@echo "Tickets no se publica en npm. El binario sale de make android o make ios."
+	@echo "Tickets no se publica en npm. El build de producción se lanza a mano: make eas-build"
 
 deploy:
 	@echo "Deploy not applicable for the host. Use make android or make ios."
