@@ -2,6 +2,7 @@
   "expo": {
     "name": "Tickets",
     "slug": "sincpro-mobile-tickets",
+    "owner": "sincpro",
     "scheme": "bo.com.sincpro.mobile.tickets",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -21,6 +22,9 @@
         "light": "./assets/TICKETS/icon.png",
         "dark": "./assets/TICKETS/icon-dark.png",
         "tinted": "./assets/TICKETS/icon-tinted.png"
+      },
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "web": {
@@ -56,6 +60,11 @@
           "bluetoothUsageDescription": "Se usa Bluetooth para conectar la impresora de tickets."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5ed2d124-85d4-4a63-a20b-45b9aa87fc71"
+      }
+    }
   }
 }

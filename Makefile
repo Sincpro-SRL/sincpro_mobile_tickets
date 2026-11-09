@@ -1,7 +1,6 @@
 .DEFAULT_GOAL := help
 
 APP := sincpro-mobile-tickets
-VERSION := $(shell node -p "require('./package.json').version")
 
 help:
 	@echo "$(APP) — comandos:"
@@ -16,6 +15,12 @@ help:
 	@echo "  test / build               tests del host / typecheck"
 	@echo "  clean                      borra node_modules, .expo, ios y android"
 	@echo "                             después: make install"
+	@echo "  eas-init                   vincula la app con expo.dev (una vez, tras npx eas-cli login)"
+	@echo "  eas-build                  build de producción en EAS, Android e iOS a la vez"
+	@echo "  eas-build-preview          build preview (interno) en EAS, Android e iOS a la vez"
+	@echo "  eas-builds                 últimos builds de EAS y cuánto tardó cada uno"
+	@echo "  version                    versión de la app y último número de build en EAS"
+	@echo "  update-version VERSION=x.y.z  cambia la versión en package.json y app.json"
 
 prepare-environment:
 	@pipx install pre-commit
@@ -93,7 +98,7 @@ endif
 	fi
 
 publish:
-	@echo "Tickets no se publica en npm. El binario sale de make android o make ios."
+	@echo "Tickets no se publica en npm. El build de producción se lanza a mano: make eas-build"
 
 deploy:
 	@echo "Deploy not applicable for the host. Use make android or make ios."
@@ -102,4 +107,20 @@ clean:
 	@rm -rf node_modules .expo ios android
 	@echo "✓ Cleaned. Siguiente paso: make install"
 
-.PHONY: help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean
+eas-init:
+	@npx eas-cli@latest init
+
+eas-build:
+	@npx eas-cli@latest build --platform all --profile production
+
+eas-build-preview:
+	@npx eas-cli@latest build --platform all --profile preview
+
+eas-builds:
+	@npx eas-cli@latest build:list --limit 10 --json --non-interactive | node scripts/eas-build-times.mjs
+
+version:
+	@node -e "const p=require('./package.json').version, a=require('./app.json').expo.version; console.log('Versión: ' + p + (p === a ? '' : '  ✘ app.json dice ' + a + ': make update-version VERSION=' + p));"
+	@npx eas-cli@latest build:version:get --platform all --json 2>/dev/null | node -e 'let s="";process.stdin.on("data",(d)=>(s+=d)).on("end",()=>{const v=JSON.parse(s||"{}");console.log("Último build en EAS: Android " + (v.versionCode ?? "-") + " · iOS " + (v.buildNumber ?? "-"))})'
+
+.PHONY: help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean eas-init eas-build eas-build-preview eas-builds version

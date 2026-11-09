@@ -1,6 +1,7 @@
 import { defineAppShell } from "@sincpro/mobile";
 import type { Subscriber } from "@sincpro/mobile/event_driven";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
+import { configureLogger } from "@sincpro/mobile/infrastructure/logger";
 import type { CronWorker } from "@sincpro/mobile/infrastructure/workers";
 import { printerService } from "@sincpro/mobile/services/printer.service";
 import { ProcessToastProvider } from "@sincpro/mobile/ui/components/molecules";
@@ -29,6 +30,10 @@ export class TicketsModule extends DomainModule {
 }
 
 export const ticketsModule = new TicketsModule();
+
+// Release builds print nothing to the console until observability is ready; telemetry stays
+// off as well (no `telemetry` in the shell below).
+configureLogger({ production: !__DEV__ });
 
 printerService.setDriver(PrinterAdapter);
 
