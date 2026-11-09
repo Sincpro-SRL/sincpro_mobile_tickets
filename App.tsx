@@ -1,7 +1,13 @@
 import "./global.css";
 
-import { createTicketsApp } from "@sincpro/mobile-tickets/entrypoints/main";
+import { AppShell } from "@sincpro/mobile";
+import { ticketsShell } from "@sincpro/mobile-tickets/entrypoints/main";
+import { TicketsApp } from "@sincpro/mobile-tickets/entrypoints/ui/App";
 
-const App = createTicketsApp();
-
-export default App;
+export default function App() {
+  return (
+    <AppShell shell={ticketsShell}>
+      <TicketsApp />
+    </AppShell>
+  );
+}

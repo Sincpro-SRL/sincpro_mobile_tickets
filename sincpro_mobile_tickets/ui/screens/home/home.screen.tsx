@@ -2,9 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
 import { Display } from "@sincpro/mobile-ui/Display";
 import type { MenuGridItem } from "@sincpro/mobile-ui/Display/Display.MenuGrid";
-import BoxTimeIcon from "@sincpro/mobile-ui/icons/BoxTimeIcon";
-import OdooIcon from "@sincpro/mobile-ui/icons/OdooIcon";
-import SettingsIcon from "@sincpro/mobile-ui/icons/SettingsIcon";
 import { AppBar } from "@sincpro/mobile-ui/Navigation/Navigation.AppBar";
 import { ScrollView, View } from "react-native";
 
@@ -13,32 +10,16 @@ function HomeScreen() {
 
   const menuItems: MenuGridItem[] = [
     {
-      id: "1",
-      title: "Odoo",
-      iconType: "custom",
-      onPress: () => navigation.navigate(AppScreen.ODOO_PORTAL as never),
-      customIcon: OdooIcon,
-    },
-    {
       id: "2",
       title: "Acciones fallidas",
-      iconType: "custom",
+      icon: "error",
       onPress: () => navigation.navigate(AppScreen.DEAD_LETTER_QUEUE as never),
-      customIcon: BoxTimeIcon,
     },
     {
       id: "3",
       title: "Eventos",
-      iconType: "custom",
+      icon: "list",
       onPress: () => navigation.navigate(AppScreen.EVENTS as never),
-      customIcon: BoxTimeIcon,
-    },
-    {
-      id: "4",
-      title: "Configurar impresora",
-      iconType: "custom",
-      onPress: () => navigation.navigate(AppScreen.SETTINGS as never),
-      customIcon: SettingsIcon,
     },
   ];
 
@@ -49,10 +30,10 @@ function HomeScreen() {
         leading={
           <Display.Logo
             size="small"
-            source={require("../../../../assets/TICKETS/logo.png")}
+            source={require("../../../../assets/TICKETS/wordmark.png")}
           />
         }
-        title="Tickets"
+        title="Actividad"
         variant="large"
       />
       <View className="flex-1">

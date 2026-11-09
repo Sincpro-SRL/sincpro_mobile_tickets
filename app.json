@@ -2,33 +2,44 @@
   "expo": {
     "name": "Tickets",
     "slug": "sincpro-mobile-tickets",
+    "scheme": "bo.com.sincpro.mobile.tickets",
     "version": "0.1.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "icon": "./assets/TICKETS/icon.png",
     "android": {
       "package": "bo.com.sincpro.tickets",
       "adaptiveIcon": {
         "foregroundImage": "./assets/TICKETS/adaptive-icon-foreground.png",
-        "backgroundColor": "#0EA5E9"
+        "monochromeImage": "./assets/TICKETS/adaptive-icon-monochrome.png",
+        "backgroundColor": "#0B0A09"
       }
     },
     "ios": {
-      "bundleIdentifier": "bo.com.sincpro.tickets"
+      "bundleIdentifier": "bo.com.sincpro.tickets",
+      "icon": {
+        "light": "./assets/TICKETS/icon.png",
+        "dark": "./assets/TICKETS/icon-dark.png",
+        "tinted": "./assets/TICKETS/icon-tinted.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/TICKETS/favicon.png"
     },
     "plugins": [
+      "./plugins/withPrefabOrder",
       "expo-sqlite",
       "expo-localization",
       [
         "expo-splash-screen",
         {
           "image": "./assets/TICKETS/splash.png",
-          "imageWidth": 200,
+          "imageWidth": 260,
           "resizeMode": "contain",
-          "backgroundColor": "#0EA5E9",
+          "backgroundColor": "#0B0A09",
           "dark": {
             "image": "./assets/TICKETS/splash.png",
-            "backgroundColor": "#0C4A6E"
+            "backgroundColor": "#000000"
           }
         }
       ],
