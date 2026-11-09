@@ -1,5 +1,5 @@
 import { DomainEvent } from "@sincpro/mobile/domain";
-import { Subscriber } from "@sincpro/mobile/domain/event_sourcing";
+import { Subscriber } from "@sincpro/mobile/event_driven";
 import { loggerUseCases } from "@sincpro/mobile/infrastructure/logger";
 import { OdooLoggedInEvent } from "@sincpro/mobile-odoo/domain/auth/events";
 

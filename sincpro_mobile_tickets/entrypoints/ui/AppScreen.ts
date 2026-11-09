@@ -9,8 +9,13 @@ export enum AppScreen {
   SETTINGS = OdooScreen.SETTINGS,
   DATABASE_LIST = OdooScreen.DATABASE_LIST,
 
-  DEAD_LETTER_QUEUE = "/common/dead-letter-queue",
-  EVENTS = "/common/events",
+  DEAD_LETTER_QUEUE = "DeadLetterQueue",
+  EVENTS = "Events",
+  PRINTER = "Printer",
+  /** Prints that did not come out, with the image that could not be printed. */
+  FAILED_PRINTS = "FailedPrints",
+  /** Settings as a tab, only in debug mode; the profile opens SETTINGS over the tabs. */
+  SETTINGS_TAB = "SettingsTab",
 
-  MAIN = "/",
+  MAIN = "Home",
 }

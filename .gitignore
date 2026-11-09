@@ -6,3 +6,6 @@ web-build/
 .DS_Store
 ios/
 android/
+.vscode/
+.idea/
+*.iml
