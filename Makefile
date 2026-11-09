@@ -16,6 +16,11 @@ help:
 	@echo "  test / build               tests del host / typecheck"
 	@echo "  clean                      borra node_modules, .expo, ios y android"
 	@echo "                             después: make install"
+	@echo "  eas-init                   vincula la app con expo.dev (una vez, tras npx eas-cli login)"
+	@echo "  eas-android                build en EAS: APK interno"
+	@echo "  eas-ios-simulator          build en EAS: app para el simulador de iOS"
+	@echo "  eas-production             build en EAS para las tiendas (ambas plataformas)"
+	@echo "  eas-builds                 últimos builds de EAS y cuánto tardó cada uno"
 
 prepare-environment:
 	@pipx install pre-commit
@@ -102,4 +107,19 @@ clean:
 	@rm -rf node_modules .expo ios android
 	@echo "✓ Cleaned. Siguiente paso: make install"
 
-.PHONY: help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean
+eas-init:
+	@npx eas-cli@latest init
+
+eas-android:
+	@npx eas-cli@latest build --platform android --profile preview
+
+eas-ios-simulator:
+	@npx eas-cli@latest build --platform ios --profile simulator
+
+eas-production:
+	@npx eas-cli@latest build --platform all --profile production
+
+eas-builds:
+	@npx eas-cli@latest build:list --limit 10 --json --non-interactive | node scripts/eas-build-times.mjs
+
+.PHONY: help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean eas-init eas-android eas-ios-simulator eas-production eas-builds
