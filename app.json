@@ -4,7 +4,7 @@
     "slug": "sincpro-mobile-tickets",
     "owner": "sincpro",
     "scheme": "bo.com.sincpro.mobile.tickets",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/TICKETS/icon.png",
