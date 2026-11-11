@@ -11,6 +11,7 @@ import { ProcessToastProvider } from "@sincpro/mobile/ui/components/molecules";
 import { odooModule } from "@sincpro/mobile-odoo";
 import { PrinterAdapter } from "@sincpro/mobile-tickets/adapters/Printer.adapter";
 import TicketsCronJobs from "@sincpro/mobile-tickets/entrypoints/cron";
+import { ticketsTelemetry } from "@sincpro/mobile-tickets/entrypoints/telemetry";
 import { openNoticeIntent } from "@sincpro/mobile-tickets/entrypoints/ui/navigation";
 import {
   TICKETS_DARK_THEME,
@@ -35,8 +36,8 @@ export class TicketsModule extends DomainModule {
 
 export const ticketsModule = new TicketsModule();
 
-// Release builds print nothing to the console until observability is ready; telemetry stays
-// off as well (no `telemetry` in the shell below).
+// Release builds print nothing to the console; traces go to OTLP when the environment names the
+// collector and its key (ticketsTelemetry).
 configureLogger({ mode: __DEV__ ? "development" : "production" });
 
 printerService.setDriver(PrinterAdapter);
@@ -53,4 +54,5 @@ export const ticketsShell = defineAppShell({
   providers: [ConfirmationProvider, ProcessToastProvider],
   // The buttons of a print notice ("Ver fallidas", "Impresora") open the host's screens.
   onNoticeAction: openNoticeIntent,
+  telemetry: ticketsTelemetry(),
 });

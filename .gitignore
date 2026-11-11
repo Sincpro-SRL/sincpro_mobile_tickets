@@ -9,3 +9,7 @@ android/
 .vscode/
 .idea/
 *.iml
+
+# Environment values: in EAS (eas env:create) or .env.local, never in git
+.env
+.env*.local
