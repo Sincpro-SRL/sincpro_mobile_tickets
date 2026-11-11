@@ -1,3 +1,6 @@
+// The tickets event handlers register on ticketsBoundedContext when this loads.
+import "@sincpro/mobile-tickets/entrypoints/queue";
+
 import type { HearingContext } from "@sincpro/client-framework";
 import { defineAppShell } from "@sincpro/mobile";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
@@ -20,7 +23,7 @@ export class TicketsModule extends DomainModule {
   readonly key = "TICKETS";
   readonly name = "Tickets";
 
-  /** Its use cases — `PrepareSession` and `EndSession` hear Odoo's login and logout. */
+  /** Its use cases and event handlers: `OnOdooSession` hears Odoo's login and logout. */
   override boundedContexts(): readonly HearingContext[] {
     return [ticketsBoundedContext];
   }

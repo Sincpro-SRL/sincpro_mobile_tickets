@@ -4,7 +4,10 @@
  * screens import — never `infrastructure/framework.ts` alone, which has none registered yet.
  */
 export { ticketsBoundedContext } from "@sincpro/mobile-tickets/infrastructure/framework";
-export { EndSession } from "@sincpro/mobile-tickets/services/session/end_session.feature";
+export {
+  CommandEndSession,
+  EndSession,
+} from "@sincpro/mobile-tickets/services/session/end_session.feature";
 export {
   CommandPrepareSession,
   PrepareSession,

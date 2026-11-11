@@ -31,7 +31,7 @@ export function TicketsGlobalProvider({ children }: TicketsGlobalProviderProps) 
   const uid = odooContext.session?.uid;
   const companyId = odooContext.session?.companyId;
 
-  // A session restored from the phone is prepared here; a new sign-in, by `OdooLoggedInEvent`.
+  // A session restored from the phone is prepared here; a new sign-in, by `OnOdooSession`.
   useEffect(() => {
     if (uid === undefined || companyId === undefined) return;
     void ticketsBoundedContext
