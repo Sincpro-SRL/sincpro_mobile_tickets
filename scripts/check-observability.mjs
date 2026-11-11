@@ -4,7 +4,9 @@
  * environment — the same ones the app bundles:
  *   1. which identity a trace and a report carry (name, id, version, release, environment);
  *   2. the OTLP collector accepts a span over the same wire as the app (JSON, `apikey` header);
- *   3. GlitchTip accepts an error event over the Sentry protocol (DSN), with its release.
+ *   3. Loki accepts a log line with the stream labels the app sends (`app`, `service_name`,
+ *      `env`, `version`, `level`), over Loki's push API and the same key;
+ *   4. GlitchTip accepts an error event over the Sentry protocol (DSN), with its release.
  *
  *   node scripts/check-observability.mjs [production|development]
  *
@@ -65,6 +67,7 @@ console.log(`  app.id                  ${app.id}`);
 console.log(`  dist / app.build        <the native build, on the phone>`);
 console.log("\nValues:");
 console.log(`  EXPO_PUBLIC_OTLP_ENDPOINT  ${env.EXPO_PUBLIC_OTLP_ENDPOINT || "MISSING"}`);
+console.log(`  EXPO_PUBLIC_LOKI_ENDPOINT  ${env.EXPO_PUBLIC_LOKI_ENDPOINT || "MISSING"}`);
 console.log(`  EXPO_PUBLIC_OTLP_API_KEY   ${masked(env.EXPO_PUBLIC_OTLP_API_KEY)}`);
 console.log(`  EXPO_PUBLIC_SENTRY_DSN     ${masked(env.EXPO_PUBLIC_SENTRY_DSN)}\n`);
 
@@ -128,6 +131,42 @@ async function checkOtlp() {
     );
   } catch (error) {
     report(false, "OTLP", error instanceof Error ? error.message : String(error));
+  }
+}
+
+async function checkLoki() {
+  const endpoint = env.EXPO_PUBLIC_LOKI_ENDPOINT;
+  const apiKey = env.EXPO_PUBLIC_OTLP_API_KEY;
+  if (!endpoint || !apiKey) return report(false, "Loki", "endpoint or key missing");
+  const labels = {
+    app: app.name,
+    service_name: app.name,
+    env: app.environment,
+    version: app.version,
+    level: "info",
+  };
+  const line = `[infrastructure] Observability check from ${hostname()}: Loki receives the app's logs release=${app.release} sincpro_check=true`;
+  try {
+    const response = await fetch(`${endpoint.replace(/\/$/, "")}/loki/api/v1/push`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: apiKey },
+      body: JSON.stringify({
+        streams: [
+          { stream: labels, values: [[String(BigInt(Date.now()) * 1_000_000n), line]] },
+        ],
+      }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    const text = (await response.text()).slice(0, 200);
+    report(
+      response.ok,
+      "Loki accepted the line",
+      response.ok
+        ? `HTTP ${response.status} · {app="${app.name}", env="${app.environment}", version="${app.version}"}`
+        : `HTTP ${response.status} ${text}`,
+    );
+  } catch (error) {
+    report(false, "Loki", error instanceof Error ? error.message : String(error));
   }
 }
 
@@ -196,5 +235,6 @@ async function checkGlitchtip() {
 }
 
 await checkOtlp();
+await checkLoki();
 await checkGlitchtip();
 process.exit(failed ? 1 : 0);

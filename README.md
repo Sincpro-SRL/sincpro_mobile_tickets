@@ -19,14 +19,17 @@ cp .env.example .env               # fill the production values
 cp .env.example .env.development   # fill the development ones (EXPO_PUBLIC_APP_ENV=development)
 ```
 
-| Variable                    | What it is                                                                       | EAS visibility |
-| --------------------------- | -------------------------------------------------------------------------------- | -------------- |
-| `EXPO_PUBLIC_OTLP_ENDPOINT` | The collector's base URL (`https://otlp.sincpro.dev`); the app adds `/v1/traces` | `plaintext`    |
-| `EXPO_PUBLIC_OTLP_API_KEY`  | The ingest key, sent as the `apikey` header                                      | `sensitive`    |
-| `EXPO_PUBLIC_APP_ENV`       | `production`, `preview` or `development`: `deployment.environment` of the traces | `plaintext`    |
-| `EXPO_PUBLIC_SENTRY_DSN`    | GlitchTip's DSN (Sentry protocol): where unexpected failures are reported        | `sensitive`    |
+| Variable                    | What it is                                                                                        | EAS visibility |
+| --------------------------- | ------------------------------------------------------------------------------------------------- | -------------- |
+| `EXPO_PUBLIC_OTLP_ENDPOINT` | The collector's base URL (`https://otlp.sincpro.dev`); the app adds `/v1/traces`                  | `plaintext`    |
+| `EXPO_PUBLIC_LOKI_ENDPOINT` | Loki's base URL (`https://loki.sincpro.dev`); the app adds `/loki/api/v1/push`                    | `plaintext`    |
+| `EXPO_PUBLIC_OTLP_API_KEY`  | The telemetry key OTLP and Loki accept (Kong's `telemetry-key-auth`), sent as the `apikey` header | `sensitive`    |
+| `EXPO_PUBLIC_APP_ENV`       | `production`, `preview` or `development`: `deployment.environment` of the traces                  | `plaintext`    |
+| `EXPO_PUBLIC_SENTRY_DSN`    | GlitchTip's DSN (Sentry protocol): where unexpected failures are reported                         | `sensitive`    |
 
-Without an endpoint and a key, telemetry stays off; without a DSN, nothing is reported. Only
+The OTLP collector takes traces only: logs go to Loki, each line's stream labelled `app` and
+`service_name` (both the app's slug, stable across versions), `env`, `version` and `level` — the
+labels Grafana already filters by. Without an endpoint and a key, telemetry stays off; without a DSN, nothing is reported. Only
 what is unexpected reaches GlitchTip: a printer off, none chosen or Bluetooth denied end
 `refused` and are never reported. Source maps are not uploaded (the Sentry config plugin is not
 used, so a build needs no Sentry token).
@@ -65,7 +68,7 @@ make check-observability ENV=development
 It prints the identity every trace and report carries — with sincpro_framework's keys:
 `service.name` (the app's slug), `service.version`, `release` (`sincpro-mobile-tickets:0.2.0`,
 the same text in GlitchTip and in the traces), `deployment.environment` — and sends one test
-span to the OTLP collector and one test error to GlitchTip, over the same wire as the app. No
+span to the OTLP collector, one test line to Loki and one test error to GlitchTip, over the same wire as the app. No
 secret is printed; it fails when a value is missing or refused. On the phone each span and report
 also carries the native build (`app.build`, GlitchTip's `dist`), `app.id`, `os.type` and
 `os.version`.
