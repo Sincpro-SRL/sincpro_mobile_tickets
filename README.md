@@ -5,9 +5,19 @@ stack's rules are in [AGENTS.md](AGENTS.md).
 
 ## Configuration by environment
 
-Values that change by environment (the trace collector and its key, GlitchTip's DSN) live in
-EAS, never in the repository. The repository names the variables (`.env.example`) and says which environment each
-build profile uses (`environment` in `eas.json`).
+Values that change by environment (the trace collector and its key, GlitchTip's DSN) never go to
+the repository. The repository names the variables (`.env.example`); each machine keeps them in
+files git ignores:
+
+| File               | Whose                     | Who reads it                                                                   |
+| ------------------ | ------------------------- | ------------------------------------------------------------------------------ |
+| `.env`             | The deploy's (production) | `eas build` (uploaded through `.easignore`) and `eas update` (on this machine) |
+| `.env.development` | The developer's           | `expo start`, `make android` / `make ios`: it wins over `.env`                 |
+
+```bash
+cp .env.example .env               # fill the production values
+cp .env.example .env.development   # fill the development ones (EXPO_PUBLIC_APP_ENV=development)
+```
 
 | Variable                    | What it is                                                                       | EAS visibility |
 | --------------------------- | -------------------------------------------------------------------------------- | -------------- |
@@ -21,7 +31,19 @@ what is unexpected reaches GlitchTip: a printer off, none chosen or Bluetooth de
 `refused` and are never reported. Source maps are not uploaded (the Sentry config plugin is not
 used, so a build needs no Sentry token).
 
-### Creating them, once per environment
+### Deploying
+
+- **Build:** `make eas-build` (`eas build --profile production`). EAS uploads the project as
+  `.easignore` says — the same as `.gitignore`, except `.env` —, so the build bundles the
+  deploy's values.
+- **Update (OTA):** `eas update --channel production`. The bundle is made on this machine, from
+  `.env`.
+- **Development:** `make start` or `make android`: `.env.development` over `.env`.
+
+### Or in EAS, for a shared machine or CI
+
+The same variables can live in EAS instead; a variable created there wins over the files, and
+each build profile says which environment it loads (`environment` in `eas.json`):
 
 ```bash
 eas env:create --environment production --name EXPO_PUBLIC_OTLP_ENDPOINT --value https://otlp.sincpro.dev --visibility plaintext
@@ -30,16 +52,8 @@ eas env:create --environment production --name EXPO_PUBLIC_APP_ENV       --value
 eas env:create --environment production --name EXPO_PUBLIC_SENTRY_DSN    --value <dsn> --visibility sensitive
 ```
 
-Then the same for `preview`, with its own key. `eas env:list --environment production` shows what
-each environment has.
-
-### Using them
-
-- **Build:** `eas build --profile production` loads the `production` environment (`eas.json`).
-- **Update (OTA):** `eas update --channel production --environment production`. Without
-  `--environment`, the bundle takes whatever is in your `.env.local`, or nothing.
-- **Development:** `eas env:pull --environment development` writes `.env.local`, which git ignores.
-  `.env.example` lists the variables.
+An update then takes them with `eas update --channel production --environment production`, and
+`eas env:pull --environment development` writes them to `.env.local`.
 
 ### What this protects, and what it does not
 

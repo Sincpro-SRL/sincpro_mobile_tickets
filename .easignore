@@ -1,0 +1,18 @@
+# What `eas build` leaves out of the project it uploads. It replaces .gitignore for EAS, so it
+# repeats it — except `.env`: the deploy's values travel to the build (private to the Expo
+# account), never to git.
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
+.DS_Store
+ios/
+android/
+.vscode/
+.idea/
+*.iml
+
+.env*
+!.env
+!.env.example

@@ -10,6 +10,7 @@ android/
 .idea/
 *.iml
 
-# Environment values: in EAS (eas env:create) or .env.local, never in git
-.env
-.env*.local
+# Environment values, never in git: `.env` is the deploy's (`eas build` uploads it through
+# .easignore), `.env.development` the developer's. .env.example names the variables.
+.env*
+!.env.example
