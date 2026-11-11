@@ -1,7 +1,11 @@
 import { OdooSession } from "@sincpro/mobile-odoo/domain/auth";
 import { IServer } from "@sincpro/mobile-odoo/domain/server";
 import { useOdoo } from "@sincpro/mobile-odoo/entrypoints/ui/context";
-import { createContext, ReactNode, useContext } from "react";
+import {
+  CommandPrepareSession,
+  ticketsBoundedContext,
+} from "@sincpro/mobile-tickets/services";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 
 interface ITicketsGlobalContext {
   session: OdooSession | null;
@@ -24,6 +28,16 @@ interface TicketsGlobalProviderProps {
 
 export function TicketsGlobalProvider({ children }: TicketsGlobalProviderProps) {
   const odooContext = useOdoo();
+  const uid = odooContext.session?.uid;
+  const companyId = odooContext.session?.companyId;
+
+  // A session restored from the phone is prepared here; a new sign-in, by `OdooLoggedInEvent`.
+  useEffect(() => {
+    if (uid === undefined || companyId === undefined) return;
+    void ticketsBoundedContext
+      .execute(new CommandPrepareSession(uid, companyId))
+      .catch(() => undefined);
+  }, [uid, companyId]);
 
   const value: ITicketsGlobalContext = {
     session: odooContext.session,

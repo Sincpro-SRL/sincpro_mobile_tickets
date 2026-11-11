@@ -1,5 +1,6 @@
+import { loggerAdapter } from "@sincpro/client-framework";
 import type { IPrinterConnection, IPrinterDriver } from "@sincpro/mobile/domain/print";
-import { loggerAdapter } from "@sincpro/mobile/infrastructure/logger";
+import { errorAttributes } from "@sincpro/mobile/infrastructure/logger";
 import type {
   BluetoothDevice,
   MediaConfig,
@@ -29,7 +30,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
     try {
       return bluetooth.getPairedDevices();
     } catch (error) {
-      loggerAdapter.error("Error getting paired devices", error);
+      loggerAdapter.error("Error getting paired devices", errorAttributes(error));
       return [];
     }
   }
@@ -39,7 +40,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
     try {
       return bluetooth.getPairedPrinters();
     } catch (error) {
-      loggerAdapter.error("Error getting paired printers", error);
+      loggerAdapter.error("Error getting paired printers", errorAttributes(error));
       return [];
     }
   }

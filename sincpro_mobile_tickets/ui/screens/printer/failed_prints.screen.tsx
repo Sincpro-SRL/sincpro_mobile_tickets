@@ -1,11 +1,11 @@
 import { useCommon } from "@sincpro/mobile";
-import type { IntegrationEvent } from "@sincpro/mobile/domain/events";
+import type { EventRecord } from "@sincpro/mobile/domain/events";
 import { DeadLetterQueueList } from "@sincpro/mobile/ui/screens";
 import { Display } from "@sincpro/mobile-ui/Display";
 
 import { isFailedPrint, printImage, printTitle } from "./failed_prints";
 
-function renderPrintPreview(event: IntegrationEvent) {
+function renderPrintPreview(event: EventRecord) {
   const image = printImage(event);
   if (!image) return null;
   return (

@@ -1,5 +1,5 @@
+import type { HearingContext } from "@sincpro/client-framework";
 import { defineAppShell } from "@sincpro/mobile";
-import type { Subscriber } from "@sincpro/mobile/event_driven";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
 import { configureLogger } from "@sincpro/mobile/infrastructure/logger";
 import type { CronWorker } from "@sincpro/mobile/infrastructure/workers";
@@ -8,20 +8,21 @@ import { ProcessToastProvider } from "@sincpro/mobile/ui/components/molecules";
 import { odooModule } from "@sincpro/mobile-odoo";
 import { PrinterAdapter } from "@sincpro/mobile-tickets/adapters/Printer.adapter";
 import TicketsCronJobs from "@sincpro/mobile-tickets/entrypoints/cron";
-import { TicketsSubscribers } from "@sincpro/mobile-tickets/entrypoints/queue";
 import { openNoticeIntent } from "@sincpro/mobile-tickets/entrypoints/ui/navigation";
 import {
   TICKETS_DARK_THEME,
   TICKETS_THEME,
 } from "@sincpro/mobile-tickets/entrypoints/ui/theme/tokens";
+import { ticketsBoundedContext } from "@sincpro/mobile-tickets/services";
 import { ConfirmationProvider } from "@sincpro/mobile-ui/Dialog";
 
 export class TicketsModule extends DomainModule {
   readonly key = "TICKETS";
   readonly name = "Tickets";
 
-  override subscribers(): Subscriber[] {
-    return TicketsSubscribers;
+  /** Its use cases — `PrepareSession` and `EndSession` hear Odoo's login and logout. */
+  override boundedContexts(): readonly HearingContext[] {
+    return [ticketsBoundedContext];
   }
 
   override crons(): CronWorker[] {
@@ -33,7 +34,7 @@ export const ticketsModule = new TicketsModule();
 
 // Release builds print nothing to the console until observability is ready; telemetry stays
 // off as well (no `telemetry` in the shell below).
-configureLogger({ production: !__DEV__ });
+configureLogger({ mode: __DEV__ ? "development" : "production" });
 
 printerService.setDriver(PrinterAdapter);
 
