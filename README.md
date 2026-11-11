@@ -55,6 +55,21 @@ eas env:create --environment production --name EXPO_PUBLIC_SENTRY_DSN    --value
 An update then takes them with `eas update --channel production --environment production`, and
 `eas env:pull --environment development` writes them to `.env.local`.
 
+### Checking that it works
+
+```bash
+make check-observability              # the values of .env (production)
+make check-observability ENV=development
+```
+
+It prints the identity every trace and report carries — with sincpro_framework's keys:
+`service.name` (the app's slug), `service.version`, `release` (`sincpro-mobile-tickets:0.2.0`,
+the same text in GlitchTip and in the traces), `deployment.environment` — and sends one test
+span to the OTLP collector and one test error to GlitchTip, over the same wire as the app. No
+secret is printed; it fails when a value is missing or refused. On the phone each span and report
+also carries the native build (`app.build`, GlitchTip's `dist`), `app.id`, `os.type` and
+`os.version`.
+
 ### What this protects, and what it does not
 
 An `EXPO_PUBLIC_` variable is written into the app's bundle: it stays out of the repository, but

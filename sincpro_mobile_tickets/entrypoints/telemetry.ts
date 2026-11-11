@@ -1,5 +1,6 @@
 import type { TelemetryConfig } from "@sincpro/mobile";
-import Constants from "expo-constants";
+import { appIdentity } from "@sincpro/mobile-tickets/infrastructure/app_identity";
+import { Platform } from "react-native";
 
 /**
  * Where the app's traces go, read from its environment — never written in the repository:
@@ -10,8 +11,12 @@ import Constants from "expo-constants";
  *   EXPO_PUBLIC_APP_ENV         `production`, `preview`, `development`: the traces'
  *                               `deployment.environment`
  *
- * Context: EAS sets them per environment (`eas env:create`, and the build profile's
- * `environment` in eas.json); `.env.local` sets them while developing (`eas env:pull`). Expo
+ * Every span carries who sent it (`appIdentity`), with sincpro_framework's keys: `service.name`
+ * is the app's slug, `service.version` its version, `release` the same text GlitchTip shows
+ * (`sincpro-mobile-tickets:0.2.0`); `app.id`, `app.build`, `os.type` and `os.version` say which
+ * build on which phone.
+ *
+ * Context: the values come from `.env` (the deploy's) or `.env.development`, or from EAS. Expo
  * writes an `EXPO_PUBLIC_` variable into the bundle when it is read literally — never
  * destructured —, so the key travels inside the app: it is an ingest-only key, one per
  * environment, that can be rotated. Without an endpoint and a key, telemetry stays off.
@@ -20,11 +25,18 @@ export function ticketsTelemetry(): TelemetryConfig | undefined {
   const endpoint = process.env.EXPO_PUBLIC_OTLP_ENDPOINT;
   const apiKey = process.env.EXPO_PUBLIC_OTLP_API_KEY;
   if (!endpoint || !apiKey) return undefined;
+  const app = appIdentity();
   return {
-    serviceName: "sincpro-mobile-tickets",
-    serviceVersion: Constants.expoConfig?.version,
-    deploymentEnvironment:
-      process.env.EXPO_PUBLIC_APP_ENV || (__DEV__ ? "development" : "production"),
+    serviceName: app.name,
+    serviceVersion: app.version,
+    deploymentEnvironment: app.environment,
+    resourceAttributes: {
+      release: app.release,
+      "app.id": app.id,
+      "app.build": app.build,
+      "os.type": Platform.OS,
+      "os.version": String(Platform.Version),
+    },
     otlp: { endpoint, headers: { apikey: apiKey } },
   };
 }
