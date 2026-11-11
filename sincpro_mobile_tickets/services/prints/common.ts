@@ -1,7 +1,12 @@
 import type { EventRecord } from "@sincpro/mobile/domain/events";
 import { PrintImageRequestedEvent } from "@sincpro/mobile/domain/print/events";
-import { eventService } from "@sincpro/mobile/services/event.service";
 
+/**
+ * What the prints' use cases and their screens share: how a stored print request reads. Pure:
+ * what a use case asks the core for is written in the use case.
+ */
+
+/** A print that did not come out, as the printer tab lists it. */
 export interface FailedPrint {
   id: string;
   title: string;
@@ -26,18 +31,4 @@ export const printTitle = (event: EventRecord): string =>
 export function printImage(event: EventRecord): string | null {
   const image = (event.payload as PrintValues | null)?.imageBase64;
   return image && !image.startsWith("[omitido") ? image : null;
-}
-
-/** The prints the queue set aside, newest first, for the printer tab summary. */
-export async function loadFailedPrints(): Promise<FailedPrint[]> {
-  const failed = await eventService.listFailedEvents();
-  return failed
-    .filter(isFailedPrint)
-    .map((event) => ({
-      id: event.id,
-      title: printTitle(event),
-      when: event.settledAt ?? event.publishedAt,
-      reason: event.error ?? "No se pudo imprimir",
-    }))
-    .sort((a, b) => b.when.localeCompare(a.when));
 }

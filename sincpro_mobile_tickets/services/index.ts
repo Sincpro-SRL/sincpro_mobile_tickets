@@ -5,6 +5,10 @@
  */
 export { ticketsBoundedContext } from "@sincpro/mobile-tickets/infrastructure/framework";
 export {
+  CommandListFailedPrints,
+  ListFailedPrints,
+} from "@sincpro/mobile-tickets/services/prints/list_failed_prints.feature";
+export {
   CommandEndSession,
   EndSession,
 } from "@sincpro/mobile-tickets/services/session/end_session.feature";
