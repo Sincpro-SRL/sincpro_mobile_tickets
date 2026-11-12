@@ -107,6 +107,9 @@ clean:
 	@rm -rf node_modules .expo ios android
 	@echo "✓ Cleaned. Siguiente paso: make install"
 
+check-observability:
+	@node scripts/check-observability.mjs $(or $(ENV),production)
+
 eas-init:
 	@npx eas-cli@latest init
 
@@ -123,4 +126,4 @@ version:
 	@node -e "const p=require('./package.json').version, a=require('./app.json').expo.version; console.log('Versión: ' + p + (p === a ? '' : '  ✘ app.json dice ' + a + ': make update-version VERSION=' + p));"
 	@npx eas-cli@latest build:version:get --platform all --json 2>/dev/null | node -e 'let s="";process.stdin.on("data",(d)=>(s+=d)).on("end",()=>{const v=JSON.parse(s||"{}");console.log("Último build en EAS: Android " + (v.versionCode ?? "-") + " · iOS " + (v.buildNumber ?? "-"))})'
 
-.PHONY: help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean eas-init eas-build eas-build-preview eas-builds version
+.PHONY: check-observability help prepare-environment install init start web android ios prebuild lint typecheck check format doctor test verify verify-format build update-version publish deploy clean eas-init eas-build eas-build-preview eas-builds version

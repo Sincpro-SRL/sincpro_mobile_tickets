@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { printerService } from "@sincpro/mobile/services/printer.service";
+import { CommandPrintTestPage, commonBoundedContext } from "@sincpro/mobile";
 import { BluetoothPrinterSelector } from "@sincpro/mobile/ui/components/organisms";
 import { AppScreen } from "@sincpro/mobile-tickets/entrypoints/ui/AppScreen";
 import { Display, type IconName } from "@sincpro/mobile-ui/Display";
@@ -43,7 +43,12 @@ function PrinterScreen() {
             description="Imprime una hoja para verificar la conexión"
             icon={TestPageIcon}
             label="Imprimir página de prueba"
-            onPress={() => void printerService.printTestPage()}
+            // The use case tells the cashier whether it printed; its run records why not.
+            onPress={() =>
+              void commonBoundedContext
+                .execute(new CommandPrintTestPage())
+                .catch(() => undefined)
+            }
             showDivider={false}
           />
         </FormViewV2.Content.Section>

@@ -1,5 +1,6 @@
+import { loggerAdapter } from "@sincpro/client-framework";
 import type { IPrinterConnection, IPrinterDriver } from "@sincpro/mobile/domain/print";
-import { loggerAdapter } from "@sincpro/mobile/infrastructure/logger";
+import { errorAttributes } from "@sincpro/mobile/infrastructure/logger";
 import type {
   BluetoothDevice,
   MediaConfig,
@@ -23,13 +24,18 @@ const DEFAULT_PRINTER_CONFIG: PrinterConfig = {
   density: "extra_dark",
 };
 
-class PrinterAdapterImpl implements IPrinterDriver {
+/**
+ * The tickets printer's native driver — the `IPrinterDriver` port @sincpro/mobile defines, over
+ * `@sincpro/printer-expo`. Registered once with `setPrinterDriver`; the core's printer adapter
+ * and its use cases drive it.
+ */
+class PrinterDriverImpl implements IPrinterDriver {
   getPairedDevices(): BluetoothDevice[] {
     loggerAdapter.info("Getting paired Bluetooth devices");
     try {
       return bluetooth.getPairedDevices();
     } catch (error) {
-      loggerAdapter.error("Error getting paired devices", error);
+      loggerAdapter.error("Error getting paired devices", errorAttributes(error));
       return [];
     }
   }
@@ -39,7 +45,7 @@ class PrinterAdapterImpl implements IPrinterDriver {
     try {
       return bluetooth.getPairedPrinters();
     } catch (error) {
-      loggerAdapter.error("Error getting paired printers", error);
+      loggerAdapter.error("Error getting paired printers", errorAttributes(error));
       return [];
     }
   }
@@ -122,4 +128,4 @@ class PrinterAdapterImpl implements IPrinterDriver {
   }
 }
 
-export const PrinterAdapter = new PrinterAdapterImpl();
+export const PrinterDriver = new PrinterDriverImpl();

@@ -1,27 +1,31 @@
+// The tickets event handlers register on ticketsBoundedContext when this loads.
+import "@sincpro/mobile-tickets/entrypoints/queue";
+
+import type { HearingContext } from "@sincpro/client-framework";
 import { defineAppShell } from "@sincpro/mobile";
-import type { Subscriber } from "@sincpro/mobile/event_driven";
+import { setPrinterDriver } from "@sincpro/mobile/domain/print";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
-import { configureLogger } from "@sincpro/mobile/infrastructure/logger";
 import type { CronWorker } from "@sincpro/mobile/infrastructure/workers";
-import { printerService } from "@sincpro/mobile/services/printer.service";
 import { ProcessToastProvider } from "@sincpro/mobile/ui/components/molecules";
 import { odooModule } from "@sincpro/mobile-odoo";
-import { PrinterAdapter } from "@sincpro/mobile-tickets/adapters/Printer.adapter";
+import { PrinterDriver } from "@sincpro/mobile-tickets/adapters/Printer.driver";
 import TicketsCronJobs from "@sincpro/mobile-tickets/entrypoints/cron";
-import { TicketsSubscribers } from "@sincpro/mobile-tickets/entrypoints/queue";
+import { ticketsObservability } from "@sincpro/mobile-tickets/entrypoints/observability";
 import { openNoticeIntent } from "@sincpro/mobile-tickets/entrypoints/ui/navigation";
 import {
   TICKETS_DARK_THEME,
   TICKETS_THEME,
 } from "@sincpro/mobile-tickets/entrypoints/ui/theme/tokens";
+import { ticketsBoundedContext } from "@sincpro/mobile-tickets/services";
 import { ConfirmationProvider } from "@sincpro/mobile-ui/Dialog";
 
 export class TicketsModule extends DomainModule {
   readonly key = "TICKETS";
   readonly name = "Tickets";
 
-  override subscribers(): Subscriber[] {
-    return TicketsSubscribers;
+  /** Its use cases and event handlers: `OnOdooSession` hears Odoo's login and logout. */
+  override boundedContexts(): readonly HearingContext[] {
+    return [ticketsBoundedContext];
   }
 
   override crons(): CronWorker[] {
@@ -31,11 +35,7 @@ export class TicketsModule extends DomainModule {
 
 export const ticketsModule = new TicketsModule();
 
-// Release builds print nothing to the console until observability is ready; telemetry stays
-// off as well (no `telemetry` in the shell below).
-configureLogger({ production: !__DEV__ });
-
-printerService.setDriver(PrinterAdapter);
+setPrinterDriver(PrinterDriver);
 
 /**
  * Prepared while the bundle loads, never inside a component: theme, fonts, the native splash
@@ -49,4 +49,6 @@ export const ticketsShell = defineAppShell({
   providers: [ConfirmationProvider, ProcessToastProvider],
   // The buttons of a print notice ("Ver fallidas", "Impresora") open the host's screens.
   onNoticeAction: openNoticeIntent,
+  // Traces, log lines with their level, and GlitchTip — each saying who sent it.
+  observability: ticketsObservability,
 });

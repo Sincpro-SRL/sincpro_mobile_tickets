@@ -9,3 +9,8 @@ android/
 .vscode/
 .idea/
 *.iml
+
+# Environment values, never in git: `.env` is the deploy's (`eas build` uploads it through
+# .easignore), `.env.development` the developer's. .env.example names the variables.
+.env*
+!.env.example
