@@ -1840,10 +1840,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.10.tgz#beefe675f1853f73676aecc915b2bd2ac98c4fc6"
   integrity sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==
 
-"@sincpro/client-framework@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@sincpro/client-framework/-/client-framework-1.6.1.tgz#6ef4b4119eae81571150a82abf1a671508837a56"
-  integrity sha512-NYTeyUr2g9Nre1hr9oajNtJ37qS5EUSSVPb6S4Xq9bbsGayW3pHdXqRVVWlN59BPVCEBvZEuiPcNEg9qjUI1eA==
+"@sincpro/client-framework@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@sincpro/client-framework/-/client-framework-1.7.0.tgz#ea4c5eb9cde2ee998b674d31e9b26270e85e4b44"
+  integrity sha512-0xuJhCz+zhC4HPEqnNFO2zWEuEoHiygZujrnifncZNmay/X0OEyu7aqQO2xZcsXhRb7pL/bAVaNSqnBecdreEw==
 
 "@sincpro/criteria@^2.1.0":
   version "2.1.0"
@@ -1869,10 +1869,10 @@
     tailwind-merge "^3.4.0"
     tailwind-variants "^3.2.2"
 
-"@sincpro/mobile@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@sincpro/mobile/-/mobile-2.4.0.tgz#81989f622d9ba201ca737a9fe8fbbd6bf848b215"
-  integrity sha512-c365jOg9pDknvyxxFrTDd236o0tAnTdy05dd8637biyuMGt9yMWVMIZR8my1boJOSMc1nR45C6Sx4geWS8geRw==
+"@sincpro/mobile@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@sincpro/mobile/-/mobile-2.5.0.tgz#3b1d897f31362c2c7f2ee1afd15fd2228169fa9f"
+  integrity sha512-xQjMpEp1hyJ5vddOS1R8DvUcXbwgEgmKoTO0S5TJaurD81t+HgrsLxlZw+FX2Tk/hpvwkEHJturAZSgFR94xdQ==
   dependencies:
     "@opentelemetry/api" "^1.9.1"
     "@opentelemetry/core" "^2.10.0"
