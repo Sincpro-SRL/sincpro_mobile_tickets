@@ -44,6 +44,12 @@ export const ticketsObservability: ObservabilityConfig = {
       // Only errors: traces go to OTLP, and no session is tracked.
       tracesSampleRate: 0,
       enableAutoSessionTracking: false,
+      // No breadcrumbs from the console or the network: Sentry would wrap `console.*`, so every
+      // line in Metro and LogBox would point at its wrapper (`log?.apply(GLOBAL_OBJ.console, …)`)
+      // instead of who wrote it, and a line may carry an invoice or a customer to GlitchTip.
+      integrations: [
+        Sentry.breadcrumbsIntegration({ console: false, fetch: false, xhr: false }),
+      ],
     });
     return Sentry;
   },
