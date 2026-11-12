@@ -5,6 +5,10 @@ stack's rules are in [AGENTS.md](AGENTS.md).
 
 ## Configuration by environment
 
+Everything observability is one option, `defineAppShell({ observability })`, built in
+`entrypoints/observability.ts` from the variables below; @sincpro/mobile reads who is running
+from the app (release `<slug>:<version>`, native build) and puts it on every signal.
+
 Values that change by environment (the trace collector and its key, GlitchTip's DSN) never go to
 the repository. The repository names the variables (`.env.example`); each machine keeps them in
 files git ignores:
@@ -19,13 +23,14 @@ cp .env.example .env               # fill the production values
 cp .env.example .env.development   # fill the development ones (EXPO_PUBLIC_APP_ENV=development)
 ```
 
-| Variable                    | What it is                                                                                        | EAS visibility |
-| --------------------------- | ------------------------------------------------------------------------------------------------- | -------------- |
-| `EXPO_PUBLIC_OTLP_ENDPOINT` | The collector's base URL (`https://otlp.sincpro.dev`); the app adds `/v1/traces`                  | `plaintext`    |
-| `EXPO_PUBLIC_LOKI_ENDPOINT` | Loki's base URL (`https://loki.sincpro.dev`); the app adds `/loki/api/v1/push`                    | `plaintext`    |
-| `EXPO_PUBLIC_OTLP_API_KEY`  | The telemetry key OTLP and Loki accept (Kong's `telemetry-key-auth`), sent as the `apikey` header | `sensitive`    |
-| `EXPO_PUBLIC_APP_ENV`       | `production`, `preview` or `development`: `deployment.environment` of the traces                  | `plaintext`    |
-| `EXPO_PUBLIC_SENTRY_DSN`    | GlitchTip's DSN (Sentry protocol): where unexpected failures are reported                         | `sensitive`    |
+| Variable                    | What it is                                                                                                      | EAS visibility |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------- |
+| `EXPO_PUBLIC_OTLP_ENDPOINT` | The collector's base URL (`https://otlp.sincpro.dev`); the app adds `/v1/traces`                                | `plaintext`    |
+| `EXPO_PUBLIC_LOKI_ENDPOINT` | Loki's base URL (`https://loki.sincpro.dev`); the app adds `/loki/api/v1/push`                                  | `plaintext`    |
+| `EXPO_PUBLIC_OTLP_API_KEY`  | The telemetry key OTLP and Loki accept (Kong's `telemetry-key-auth`), sent as the `apikey` header               | `sensitive`    |
+| `EXPO_PUBLIC_APP_ENV`       | `production`, `preview` or `development`: `deployment.environment` of the traces                                | `plaintext`    |
+| `EXPO_PUBLIC_LOG_LEVEL`     | `debug`, `info` (default) or `warn`: what the console (debug builds) and Loki receive; WARN and ERROR always go | `plaintext`    |
+| `EXPO_PUBLIC_SENTRY_DSN`    | GlitchTip's DSN (Sentry protocol): where unexpected failures are reported                                       | `sensitive`    |
 
 The OTLP collector takes traces only: logs go to Loki, each line's stream labelled `app` and
 `service_name` (both the app's slug, stable across versions), `env`, `version` and `level` — the

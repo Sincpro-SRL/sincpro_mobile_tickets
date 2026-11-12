@@ -5,14 +5,12 @@ import type { HearingContext } from "@sincpro/client-framework";
 import { defineAppShell } from "@sincpro/mobile";
 import { setPrinterDriver } from "@sincpro/mobile/domain/print";
 import { DomainModule } from "@sincpro/mobile/framework/domain_module";
-import { configureLogger } from "@sincpro/mobile/infrastructure/logger";
 import type { CronWorker } from "@sincpro/mobile/infrastructure/workers";
 import { ProcessToastProvider } from "@sincpro/mobile/ui/components/molecules";
 import { odooModule } from "@sincpro/mobile-odoo";
 import { PrinterDriver } from "@sincpro/mobile-tickets/adapters/Printer.driver";
 import TicketsCronJobs from "@sincpro/mobile-tickets/entrypoints/cron";
-import { ticketsReporter } from "@sincpro/mobile-tickets/entrypoints/error_reporting";
-import { ticketsTelemetry } from "@sincpro/mobile-tickets/entrypoints/telemetry";
+import { ticketsObservability } from "@sincpro/mobile-tickets/entrypoints/observability";
 import { openNoticeIntent } from "@sincpro/mobile-tickets/entrypoints/ui/navigation";
 import {
   TICKETS_DARK_THEME,
@@ -37,11 +35,6 @@ export class TicketsModule extends DomainModule {
 
 export const ticketsModule = new TicketsModule();
 
-// Release builds print nothing to the console; traces go to OTLP when the environment names the
-// collector and its key (ticketsTelemetry), unexpected failures to GlitchTip when it names the
-// DSN (ticketsReporter).
-configureLogger({ mode: __DEV__ ? "development" : "production" });
-
 setPrinterDriver(PrinterDriver);
 
 /**
@@ -56,6 +49,6 @@ export const ticketsShell = defineAppShell({
   providers: [ConfirmationProvider, ProcessToastProvider],
   // The buttons of a print notice ("Ver fallidas", "Impresora") open the host's screens.
   onNoticeAction: openNoticeIntent,
-  telemetry: ticketsTelemetry(),
-  reporter: ticketsReporter(),
+  // Traces, log lines with their level, and GlitchTip — each saying who sent it.
+  observability: ticketsObservability,
 });

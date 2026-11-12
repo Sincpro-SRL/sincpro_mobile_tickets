@@ -38,7 +38,7 @@ const hex = (bytes) => randomBytes(bytes).toString("hex");
 const masked = (value) =>
   value ? `${value.slice(0, 4)}… (${value.length} chars)` : "MISSING";
 
-// The identity the app builds at runtime (infrastructure/app_identity.ts), with
+// The identity @sincpro/mobile reads from the app at runtime (`appIdentity`), with
 // sincpro_framework's keys. The native build is only known on the phone: here it is `check`.
 const app = {
   name: expo.slug,
