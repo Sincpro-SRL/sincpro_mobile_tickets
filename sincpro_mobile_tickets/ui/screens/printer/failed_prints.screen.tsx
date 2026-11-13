@@ -2,8 +2,8 @@ import { useCommon } from "@sincpro/mobile";
 import type { EventRecord } from "@sincpro/mobile/domain/events";
 import { DeadLetterQueueList } from "@sincpro/mobile/ui/screens";
 import {
-  isFailedPrint,
   printImage,
+  PRINTS,
   printTitle,
 } from "@sincpro/mobile-tickets/services/prints/common";
 import { Display } from "@sincpro/mobile-ui/Display";
@@ -35,7 +35,7 @@ function FailedPrintsScreen({ onBack }: { onBack: () => void }) {
       name="Impresiones fallidas"
       onBack={onBack}
       renderDetail={renderPrintPreview}
-      select={isFailedPrint}
+      scope={PRINTS}
       showTechnical={debugMode}
     />
   );
