@@ -4,26 +4,29 @@ import {
   CommandListFailedPrints,
   ticketsBoundedContext,
 } from "@sincpro/mobile-tickets/services";
-import type { FailedPrint } from "@sincpro/mobile-tickets/services/prints/common";
+import type { FailedPrints } from "@sincpro/mobile-tickets/services/prints/common";
 import { useEffect, useState } from "react";
 
+const NONE: FailedPrints = { latest: [], total: 0 };
+
 /**
- * The prints that did not come out, kept current: the queue announces every print request when
- * it settles (`UIEventBus`, by its event name), whether it came out or was set aside, so a new
- * failure or a successful retry updates every screen that shows them.
+ * The newest prints that did not come out and how many there are, kept current: the queue
+ * announces every print request when it settles (`UIEventBus`, by its event name), whether it
+ * came out or was set aside, so a new failure or a successful retry updates every screen that
+ * shows them.
  */
-export function useFailedPrints(): FailedPrint[] {
-  const [failed, setFailed] = useState<FailedPrint[]>([]);
+export function useFailedPrints(): FailedPrints {
+  const [failed, setFailed] = useState<FailedPrints>(NONE);
 
   useEffect(() => {
     let active = true;
     const reload = () => {
       ticketsBoundedContext.execute(new CommandListFailedPrints()).then(
-        (rows) => {
-          if (active) setFailed(rows);
+        (prints) => {
+          if (active) setFailed(prints);
         },
         () => {
-          if (active) setFailed([]);
+          if (active) setFailed(NONE);
         },
       );
     };

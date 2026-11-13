@@ -165,7 +165,7 @@ function OdooTabButton({
 function MainTabs() {
   const theme = useTheme();
   const { debugMode } = useCommon();
-  const failedPrints = useFailedPrints().length;
+  const failedPrints = useFailedPrints().total;
 
   return (
     <Tabs.Navigator

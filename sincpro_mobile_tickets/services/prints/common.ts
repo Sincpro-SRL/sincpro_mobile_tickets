@@ -1,3 +1,4 @@
+import type { Criteria } from "@sincpro/criteria";
 import type { EventRecord } from "@sincpro/mobile/domain/events";
 import { PrintImageRequestedEvent } from "@sincpro/mobile/domain/print/events";
 
@@ -14,15 +15,22 @@ export interface FailedPrint {
   reason: string;
 }
 
+/** The printer tab's summary: the newest prints that did not come out, and how many there are. */
+export interface FailedPrints {
+  latest: FailedPrint[];
+  total: number;
+}
+
 /** What a stored print request carries. */
 type PrintValues = { title?: string; imageBase64?: string };
 
 /**
- * Prints are the only failed events a cashier sees. A print that came out is never set aside,
- * so it is never offered again.
+ * Prints are the only failed events a cashier sees, read in SQL with the rest of the filters. A
+ * print that came out is never set aside, so it is never offered again.
  */
-export const isFailedPrint = (event: EventRecord): boolean =>
-  event.name === PrintImageRequestedEvent.eventName;
+export const PRINTS: Criteria<EventRecord> = {
+  selection: { field: "name", operator: "=", value: PrintImageRequestedEvent.eventName },
+};
 
 export const printTitle = (event: EventRecord): string =>
   (event.payload as PrintValues | null)?.title || "Impresión";

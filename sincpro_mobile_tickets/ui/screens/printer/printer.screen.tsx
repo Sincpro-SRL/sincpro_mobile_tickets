@@ -23,9 +23,8 @@ const RetryIcon = rowIcon("sync");
 /** Printer connection, a test page and the last prints that did not come out. */
 function PrinterScreen() {
   const navigation = useNavigation();
-  const failed = useFailedPrints();
+  const { latest, total } = useFailedPrints();
   const openFailed = () => navigation.navigate(AppScreen.FAILED_PRINTS as never);
-  const latest = failed.slice(0, 3);
 
   return (
     <FormViewV2.Root
@@ -73,9 +72,9 @@ function PrinterScreen() {
               />
             ))
           )}
-          {failed.length > 0 ? (
+          {total > 0 ? (
             <Display.MenuButton
-              badge={failed.length}
+              badge={total}
               description="Con la imagen, para reintentar lo que no salió"
               icon={RetryIcon}
               label="Ver y reintentar"
